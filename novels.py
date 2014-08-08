@@ -1,7 +1,7 @@
 #!/bin/python
 #-*-coding:gbk-*-
 
-import os, sys, re
+import os, re
 import httplib
 
 fname = "chapters.html"
@@ -38,6 +38,7 @@ else:
 		afile = open(fname, 'w')
 		afile.write(data)
 		afile.close()
+	resp.close()
 	conn.close()
 
 regexp = "<TD class=bookinfo_td .*>"
@@ -54,8 +55,7 @@ pattern = re.compile(regexp, re.I)
 afile = open("chapters.lst", 'w')
 bfile = open("chapters.txt", 'w')
 
-p1 = re.compile(ur'href=["\']([^"\']*)["\']', re.I)
-p2 = re.compile(ur'>(.*)<', re.I)
+p = re.compile(ur'href=["\'](?P<href>[^"\']*)["\'].*>(?P<title>.*)<', re.I)
 p3 = re.compile(ur'ตฺ(.*)ีย\s')
 #p3 = re.compile(u'\u7b2c(.*)\u7ae0\s')
 for item in pattern.finditer(result[0]):
@@ -64,11 +64,9 @@ for item in pattern.finditer(result[0]):
 
 	txt = txt.decode('gbk') # convert to unicode
 
-	m1 = p1.search(txt)
-	t1 = m1.group(1)
-
-	m2 = p2.search(txt)
-	t2 = m2.group(1)
+	m = p.search(txt)
+	t1 = m.group('href')
+	t2 = m.group('title')
 
 	t = (t1.encode('gbk'), t2.encode('gbk'))
 	bfile.write( "%s %s\n" % t )
