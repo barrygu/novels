@@ -1,5 +1,5 @@
 #!/bin/python
-#-*-coding:gbk-*-
+# -*-coding:gbk-*-
 
 import os, re
 import httplib
@@ -7,7 +7,7 @@ import httplib
 fname = "chapters.html"
 
 def chinese2digits(uchars_chinese):
-	common_used_numerals ={u'零':0,u'一':1,u'二':2,u'三':3,u'四':4,u'五':5,u'六':6,u'七':7,u'八':8,u'九':9,u'十':10,u'百':100,u'千':1000,u'万':10000,u'亿':100000000}
+	common_used_numerals = {u'零':0, u'一':1, u'二':2, u'三':3, u'四':4, u'五':5, u'六':6, u'七':7, u'八':8, u'九':9, u'十':10, u'百':100, u'千':1000, u'万':10000, u'亿':100000000}
 	total = 0
 	r = 1
 
@@ -57,19 +57,19 @@ bfile = open("chapters.txt", 'w')
 
 p = re.compile(ur'href=["\'](?P<href>[^"\']*)["\'].*>(?P<title>.*)<', re.I)
 p3 = re.compile(ur'第(.*)章\s')
-#p3 = re.compile(u'\u7b2c(.*)\u7ae0\s')
+# p3 = re.compile(u'\u7b2c(.*)\u7ae0\s')
 for item in pattern.finditer(result[0]):
 	txt = item.group()
 	afile.write("%s\n" % txt)
 
-	txt = txt.decode('gbk') # convert to unicode
+	txt = txt.decode('gbk')  # convert to unicode
 
 	m = p.search(txt)
 	t1 = m.group('href')
 	t2 = m.group('title')
 
 	t = (t1.encode('gbk'), t2.encode('gbk'))
-	bfile.write( "%s %s\n" % t )
+	bfile.write("%s %s\n" % t)
 
 	m = p3.search(t2)
 	if m:
