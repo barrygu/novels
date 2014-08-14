@@ -21,3 +21,21 @@ def chinese2digits(uchars_chinese):
 			total += r * x
 
 	return total
+
+def get_page(url):
+	import httplib, urlparse
+
+	res = urlparse.urlparse(url)
+	conn = httplib.HTTPConnection(res.netloc)
+	conn.request("GET", res.path)
+	resp = conn.getresponse()
+	if resp.status == 200:
+		data = resp.read()
+	resp.close()
+	conn.close()
+	return data
+
+def save_file(fname, data):
+	afile = open(fname, 'w')
+	afile.write(data)
+	afile.close()
