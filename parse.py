@@ -2,7 +2,7 @@
 # -*-coding:gbk-*-
 
 import os, re, sys
-import httplib
+import myfuncs
 from sgmllib import SGMLParser
 
 fname = "chapters.html"
@@ -12,16 +12,8 @@ if os.path.exists(fname):
 	data = afile.read()
 	afile.close()
 else:
-	conn = httplib.HTTPConnection("www.lwxs.org")
-	conn.request("GET", "/books/2/2754/index.html")
-	resp = conn.getresponse()
-	if resp.status == 200:
-		data = resp.read()
-		afile = open(fname, 'w')
-		afile.write(data)
-		afile.close()
-	resp.close()
-	conn.close()
+	data = myfuncs.get_page('http://www.lwxs.org/books/2/2754/index.html')
+	myfuncs.save_file(fname, data)
 
 class ListParser(SGMLParser):
 	get_start = False
@@ -91,15 +83,7 @@ if os.path.exists(fname):
 	data = afile.read()
 	afile.close()
 else:
-	conn = httplib.HTTPConnection("www.lwxs.org")
-	conn.request("GET", "/books/2/2754/524186.html")
-	resp = conn.getresponse()
-	if resp.status == 200:
-		data = resp.read()
-		afile = open(fname, 'w')
-		afile.write(data)
-		afile.close()
-	resp.close()
-	conn.close()
+	data = myfuncs.get_page('http://www.lwxs.org/books/2/2754/524186.html')
+	myfuncs.save_file(fname, data)
 
 ContentParser().feed(data)
